@@ -61,8 +61,6 @@ from robotiq_epick_control.msg import RobotiqEPick_robot_output as outputMsg
 
 
 def mainLoop(device):
-
-    print "a dela to glupav node"
     # Gripper is a EPick, ModBUS RTU communication
 
     
