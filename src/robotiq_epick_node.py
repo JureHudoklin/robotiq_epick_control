@@ -51,42 +51,40 @@ the gripper (RobotiqEPickGripperSimpleController.py) and interpreting its status
 import rospy
 from time import sleep
 
-from robotiq_epick_control.msg import RobotiqEPick_robot_input as inputMsg
-from robotiq_epick_control.msg import RobotiqEPick_robot_output as outputMsg
-"""
+
 import comModBusRTU
 import baseRobotiqEPick
 import os
 import sys
 from robotiq_epick_control.msg import RobotiqEPick_robot_input as inputMsg
 from robotiq_epick_control.msg import RobotiqEPick_robot_output as outputMsg
-"""
 
-def mainLoop():
+
+def mainLoop(device):
 
     print "a dela to glupav node"
     # Gripper is a EPick, ModBUS RTU communication
 
-    """
+    
     gripper = baseRobotiqEPick.robotiqbaseRobotiqEPickGripper()
     gripper.client = comModBusRTU.communication()
 
     # We connect to the address received as an argument
     gripper.client.connectToDevice(device)
-    """
+    
     rospy.init_node('robotiq_epick_node')
-    """
+   
     # The Gripper status is published on the topic named 'RobotiqEPickGripperRobotInput'
     pub = rospy.Publisher('RobotiqEPickRobotInput',
-                          inputMsg)
+                          inputMsg, queue_size=10)
 
     # The Gripper command is received from the topic named 'RobotiqEPickGripperRobotOutput'
     rospy.Subscriber('RobotiqEPickRobotOutput',
                      outputMsg, gripper.refreshCommand)
-    """
+    
     # We loop
     while not rospy.is_shutdown():
-        """
+        
         # Get and publish the Gripper status
         status = gripper.getStatus()
         pub.publish(status)
@@ -99,11 +97,11 @@ def mainLoop():
 
         # Wait a little
         rospy.sleep(0.05)
-        """
-
-    if __name__ == '__main__':
         
-        try:
-            mainLoop()
-        except rospy.ROSInterruptException:
-            pass
+
+if __name__ == '__main__':
+    
+    try:
+        mainLoop("/dev/ttyUSB0")
+    except rospy.ROSInterruptException:
+        pass

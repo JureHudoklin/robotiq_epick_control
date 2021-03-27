@@ -16,19 +16,19 @@ def genCommand(char, command):
 
     if char == 'm':
         command = outputMsg()
-        command.rMOD = 0
+        command.rGTO = 0
         
     if char == 'a':
         command = outputMsg()
         command.rACT = 1
         command.rGTO = 1
-        command.rSP  = 40
-        command.rFR  = 40
 
 
     if char == 'd':
         command = outputMsg()
+        command.rACT = 1
         command.rATR = 1
+
 
 
     #If the command entered is a int, assign this value to rPRA
@@ -37,13 +37,13 @@ def genCommand(char, command):
 
 def askForCommand(command):
     """
-    uint8 rATR  0 = clear fault
+    uint8 rACT  0 = clear fault
                 1 = activate gripper
     uint8 rGTO  0 = automatic mode (griper sets vacume level, timeout, hysteresis)
                 1 = advanced mode (user sets the settings)
     unit8 rMOD  0 = stop vacum generation
                 1 = Follow the requested vacuum parameters in real time. When timeout is reached, rGTO must be re-asserted
-    uint8 rACT  0 = normal operation
+    uint8 rATR  0 = normal operation
                 1 = Open the valves without any timeout. After an automatic release, rACT must be re-asserted 
     uint8 rPR   ... target vacum
                 0 = vacume generator always on
@@ -101,7 +101,6 @@ def robotiq_epick_simplecontroller():
 
         command = genCommand(askForCommand(command), command)
         
-
         pub.publish(command)
 
         rospy.sleep(0.1)
