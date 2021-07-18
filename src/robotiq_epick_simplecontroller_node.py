@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import rospy
 from time import sleep
@@ -86,7 +86,7 @@ def askForCommand(command):
     currentCommand += ", rSP = " + str(command.rSP)
     currentCommand += ", rFR = " + str(command.rFR)
 
-    print currentCommand
+    print(currentCommand)
 
     strAskForCommand = "-----\nAvailable commands\n\n"
     strAskForCommand += "r: Reset\n"
@@ -108,11 +108,11 @@ def askForCommand(command):
 
     strAskForCommand += "-->"
 
-    return raw_input(strAskForCommand)
+    return input(strAskForCommand)
 
 
 def robotiq_epick_simplecontroller():
-    print "test1"
+    print("test1")
     """Main loop which requests new commands and publish them on the RobotiqEPickGripperRobotOutput topic."""
     rospy.init_node("robotiq_epick_simplecontroller_node")
 
